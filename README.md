@@ -1,5 +1,5 @@
 Gameplay Scripting - Game Prototype: BallMuncher
-by Jonas Christiaens
+-by Jonas Christiaens
 
 2 words: Decay & Consumption
 --------------------------------------------
