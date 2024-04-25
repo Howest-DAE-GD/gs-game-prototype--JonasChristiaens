@@ -2,7 +2,7 @@
 #include "Player.h"
 
 Player::Player(float xPos, float yPos):
-	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100 }, m_Score{ 0 }, m_Speed{ 0 }, m_ShrinkingFactor{ 1 }
+	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, m_Score{ 5000 }, m_Speed{ 0 }, m_ShrinkingFactor{ 5 }
 {
 
 }
@@ -17,16 +17,16 @@ void Player::Update(float elapsedSec)
 {
 	if (m_Score >= 1000)
 	{
-		m_ShrinkingFactor = 2;
+		m_ShrinkingFactor = 10;
 	}
 	if (m_Score >= 5000)
 	{
-		m_ShrinkingFactor = 5;
+		m_ShrinkingFactor = 15;
 	}
 
-	while (m_Size >= 1)
+	if (m_Size >= 1.0f)
 	{
-		m_Size -= m_ShrinkingFactor;
+		m_Size -= m_ShrinkingFactor * elapsedSec;
 	}
 	
 	CheckKeys();
