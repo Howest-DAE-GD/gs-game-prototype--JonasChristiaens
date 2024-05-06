@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Player.h"
+#include <iostream>
+
 
 Player::Player(float xPos, float yPos):
-	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, m_Score{ 5000 }, m_Speed{ 0 }, m_ShrinkingFactor{ 5 }
+	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, m_Score{ 5000 }, m_Speed{ 100.f }, m_ShrinkingFactor{ 5 }
 {
 
 }
@@ -10,30 +12,49 @@ Player::Player(float xPos, float yPos):
 void Player::Draw() const
 {
 	utils::SetColor(m_Color);
-	utils::FillEllipse( m_Position,m_Size, m_Size);
+	utils::FillEllipse( m_Position, m_Size, m_Size);
 }
 
 void Player::Update(float elapsedSec) 
 {
+	//change difficulty dependant on ball size
 	if (m_Score >= 1000)
 	{
 		m_ShrinkingFactor = 10;
+
+		if (m_IsMoving) {
+			m_Speed = 150.f;
+		}
+
 	}
 	if (m_Score >= 5000)
 	{
 		m_ShrinkingFactor = 15;
+
+		if (m_IsMoving) {
+			m_Speed = 200.f;
+		}
 	}
 
+	//let the ball shrink
 	if (m_Size >= 1.0f)
 	{
 		m_Size -= m_ShrinkingFactor * elapsedSec;
 	}
 	
+	//check which keys are pressed
 	CheckKeys();
-	m_Speed = m_IsMoving ? 200.f : 20.f;
 
+	//update position
 	m_Position.x += m_DirectionVector.x * m_Speed * elapsedSec;
 	m_Position.y += m_DirectionVector.y * m_Speed * elapsedSec;
+
+	std::cout << "X: " << m_Position.x << ", Y:" << m_Position.y << std::endl;
+	std::cout << "m_Size: " << m_Size << std::endl;
+	std::cout << "m_Score: " << m_Score << std::endl;
+	std::cout << "m_Speed: " << m_Speed << std::endl;
+	std::cout << "m_ShrinkingFactor: " << m_ShrinkingFactor << std::endl;
+	std::cout << " " << std::endl;
 }
 
 void Player::CheckKeys()

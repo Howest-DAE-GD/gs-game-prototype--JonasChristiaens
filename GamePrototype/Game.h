@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseGame.h"
 #include "Player.h"
+#include "Ball.h"
 
 class Game : public BaseGame
 {
@@ -26,9 +27,16 @@ public:
 private:
 	//VARIABLES
 	Player* m_Player{};
+	std::vector<Ball*> m_Balls{};
+	float m_BallCreationTimer{}, m_BallDeletionTimer{};
+
 
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup( );
 	void ClearBackground( ) const;
+
+	void InitializePlayer();
+	void InitializeBalls();
+	void DeleteBalls();
 };

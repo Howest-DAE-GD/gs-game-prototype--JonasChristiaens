@@ -14,8 +14,8 @@ private:
 	Vector2f	m_DirectionVector;
 	Color4f		m_Color;
 	Point2f		m_Position;
-	float		m_Size;
-	int			m_Score, m_Speed, m_ShrinkingFactor;
+	float		m_Size, m_Speed;
+	int			m_Score, m_ShrinkingFactor;
 	bool		m_IsMoving{};
 };
 
