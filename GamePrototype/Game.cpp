@@ -37,15 +37,30 @@ void Game::Update( float elapsedSec )
 	m_Player->Update(elapsedSec);
 
 	m_BallCreationTimer += elapsedSec;
-	m_BallDeletionTimer += elapsedSec;
-	
-	std::cout<< m_BallCreationTimer << std::endl;
 
-	if (m_BallCreationTimer >= 5.f)
+	if (m_BallCreationTimer >= 3.f)
 	{
 		InitializeBalls();
 		m_BallCreationTimer = 0;
 	}
+
+	//go through all food on screen
+	for (int idx{}; idx < m_Balls.size(); ++idx)
+	{
+		//check which food is overlapping with player
+		if (utils::IsPointInCircle(m_Balls[idx]->GetPosition(), Circlef{ m_Player->GetPosition().x, m_Player->GetPosition().y, m_Player->GetSize() }))
+		{
+			//if player overlaps with food, delete and set to nullptr
+			delete m_Balls[idx];
+			m_Balls[idx] = nullptr;
+
+			m_Player->GainSize();
+			m_Player->IncreaseScore();
+		}
+	}
+
+	// Remove elements with nullptr pointer
+	m_Balls.erase(std::remove_if(m_Balls.begin(), m_Balls.end(), [](Ball* obj) { return obj == nullptr; }), m_Balls.end());
 }
 
 void Game::Draw( ) const
@@ -55,7 +70,6 @@ void Game::Draw( ) const
 	for (int idx{}; idx < m_Balls.size(); ++idx)
 	{
 		m_Balls[idx]->Draw();
-		//std::cout << m_Balls[idx] << std::endl;
 	}
 	m_Player->Draw();
 }
@@ -131,9 +145,8 @@ void Game::InitializePlayer()
 
 void Game::InitializeBalls()
 {
-	srand(time(nullptr));
-	int xPos = rand() % (int)(1280 - 20.f) + 10;
-	int yPos = rand() % (int)(800 - 20.f) + 10;
+	int xPos = rand() % (int)(1280 - 50.f) + 20;
+	int yPos = rand() % (int)(800 - 50.f) + 20;
 
 	m_Balls.push_back(new Ball(xPos, yPos));
 }

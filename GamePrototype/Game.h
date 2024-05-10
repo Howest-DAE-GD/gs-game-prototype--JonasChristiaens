@@ -28,7 +28,7 @@ private:
 	//VARIABLES
 	Player* m_Player{};
 	std::vector<Ball*> m_Balls{};
-	float m_BallCreationTimer{}, m_BallDeletionTimer{};
+	float m_BallCreationTimer{};
 
 
 	// FUNCTIONS

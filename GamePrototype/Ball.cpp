@@ -3,7 +3,7 @@
 #include <time.h>
 
 Ball::Ball(float xPos, float yPos):
-	m_Color{ 0.0f, 1.0f, 0.0f, 1.0f }, m_Position{xPos, yPos}, m_Score { 10 }
+	m_Color{ 0.0f, 1.0f, 0.0f, 1.0f }, m_Position{xPos, yPos}
 {
 
 }
@@ -14,7 +14,7 @@ void Ball::Draw() const
 	utils::FillEllipse(m_Position, m_Size, m_Size);
 }
 
-void Ball::Update(float elapsedSec)
+Point2f Ball::GetPosition()
 {
-	
+	return m_Position;
 }

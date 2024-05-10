@@ -9,6 +9,10 @@ public:
 	void Draw() const;
 	void Update(float elapsedSec);
 	void CheckKeys();
+	void GainSize();
+	void IncreaseScore();
+	Point2f GetPosition();
+	float GetSize();
 
 private:
 	Vector2f	m_DirectionVector;

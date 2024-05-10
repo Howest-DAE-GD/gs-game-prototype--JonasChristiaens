@@ -4,7 +4,8 @@
 
 
 Player::Player(float xPos, float yPos):
-	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, m_Score{ 5000 }, m_Speed{ 100.f }, m_ShrinkingFactor{ 5 }
+	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, 
+	m_Score{ 0 }, m_Speed{ 150.f }, m_ShrinkingFactor{ 5 }
 {
 
 }
@@ -23,16 +24,15 @@ void Player::Update(float elapsedSec)
 		m_ShrinkingFactor = 10;
 
 		if (m_IsMoving) {
-			m_Speed = 150.f;
+			m_Speed = 200.f;
 		}
-
 	}
 	if (m_Score >= 5000)
 	{
 		m_ShrinkingFactor = 15;
 
 		if (m_IsMoving) {
-			m_Speed = 200.f;
+			m_Speed = 250.f;
 		}
 	}
 
@@ -49,12 +49,14 @@ void Player::Update(float elapsedSec)
 	m_Position.x += m_DirectionVector.x * m_Speed * elapsedSec;
 	m_Position.y += m_DirectionVector.y * m_Speed * elapsedSec;
 
+	/*
 	std::cout << "X: " << m_Position.x << ", Y:" << m_Position.y << std::endl;
 	std::cout << "m_Size: " << m_Size << std::endl;
 	std::cout << "m_Score: " << m_Score << std::endl;
 	std::cout << "m_Speed: " << m_Speed << std::endl;
 	std::cout << "m_ShrinkingFactor: " << m_ShrinkingFactor << std::endl;
 	std::cout << " " << std::endl;
+	*/
 }
 
 void Player::CheckKeys()
@@ -86,4 +88,24 @@ void Player::CheckKeys()
 
 	m_IsMoving = isUp || isLeft || isDown || isRight;
 	m_DirectionVector = m_DirectionVector.Normalized();
+}
+
+void Player::GainSize()
+{
+	m_Size += 10.f;
+}
+
+void Player::IncreaseScore()
+{
+	m_Score += 100;
+}
+
+Point2f Player::GetPosition()
+{
+	return m_Position;
+}
+
+float Player::GetSize()
+{
+	return m_Size;
 }
