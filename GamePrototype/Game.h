@@ -2,6 +2,7 @@
 #include "BaseGame.h"
 #include "Player.h"
 #include "Ball.h"
+#include <Texture.h>
 
 class Game : public BaseGame
 {
@@ -27,8 +28,13 @@ public:
 private:
 	//VARIABLES
 	Player* m_Player{};
+	Player* m_PlayerCopy{};
 	std::vector<Ball*> m_Balls{};
 	float m_BallCreationTimer{};
+	Texture* m_GameOverTexture;
+	Texture* m_ResetTexture;
+	Texture* m_Score;
+	bool m_Start;
 
 
 	// FUNCTIONS

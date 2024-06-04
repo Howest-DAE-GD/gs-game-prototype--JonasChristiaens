@@ -16,8 +16,12 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	m_Start = true;
+	m_GameOverTexture = new Texture("Game Over!", "Fonts/DIN-Light.otf", 100, Color4f{ 1.f, 1.f, 1.f, 1.f });
+	m_ResetTexture = new Texture("To Reset, press enter!", "Fonts/DIN-Light.otf", 50, Color4f{ 1.f, 1.f, 1.f, 1.f });
 	InitializePlayer();
 	InitializeBalls();
+	//m_Score = new Texture(m_Player->GetScore(), "Fonts/DIN-Light.otf", 50, Color4f{1.f, 1.f, 1.f, 1.f});
 }
 
 void Game::Cleanup( )
@@ -30,6 +34,7 @@ void Game::Cleanup( )
 		delete m_Balls[idx];
 		m_Balls[idx] = nullptr;
 	}
+	m_Balls.clear();
 }
 
 void Game::Update( float elapsedSec )
@@ -38,9 +43,12 @@ void Game::Update( float elapsedSec )
 
 	m_BallCreationTimer += elapsedSec;
 
-	if (m_BallCreationTimer >= 3.f)
+	if (m_BallCreationTimer >= 2.f)
 	{
-		InitializeBalls();
+		if (m_Start == true)
+		{
+			InitializeBalls();
+		}
 		m_BallCreationTimer = 0;
 	}
 
@@ -61,6 +69,11 @@ void Game::Update( float elapsedSec )
 
 	// Remove elements with nullptr pointer
 	m_Balls.erase(std::remove_if(m_Balls.begin(), m_Balls.end(), [](Ball* obj) { return obj == nullptr; }), m_Balls.end());
+
+	if (m_Player->GetSize() <= 1)
+	{
+		m_Start = false;
+	}
 }
 
 void Game::Draw( ) const
@@ -72,15 +85,26 @@ void Game::Draw( ) const
 		m_Balls[idx]->Draw();
 	}
 	m_Player->Draw();
+
+	if (m_Start == false)
+	{
+		m_GameOverTexture->Draw(Rectf{ GetViewPort().width / 2 - m_GameOverTexture->GetWidth() / 2, GetViewPort().height / 2 + m_GameOverTexture->GetHeight() / 2, m_GameOverTexture->GetWidth(), m_GameOverTexture->GetHeight() });
+		m_ResetTexture->Draw(Rectf{ GetViewPort().width / 2 - m_GameOverTexture->GetWidth() / 2, GetViewPort().height / 2 + m_GameOverTexture->GetHeight() / 2 - 100, m_GameOverTexture->GetWidth(), m_GameOverTexture->GetHeight() - 50 });
+	}
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
+	if ( e.keysym.sym == SDLK_RETURN)
+	{
+		Cleanup();
+		Initialize();
+	}
 }
 void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 {
-	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
+	////std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
 	//switch ( e.keysym.sym )
 	//{
 	//case SDLK_LEFT:
@@ -141,6 +165,7 @@ void Game::ClearBackground( ) const
 void Game::InitializePlayer()
 {
 	m_Player = new Player(640.0f, 400.0f);
+	m_PlayerCopy = m_Player;
 }
 
 void Game::InitializeBalls()

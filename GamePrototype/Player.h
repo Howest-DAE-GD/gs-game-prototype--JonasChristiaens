@@ -13,6 +13,7 @@ public:
 	void IncreaseScore();
 	Point2f GetPosition();
 	float GetSize();
+	int GetScore();
 
 private:
 	Vector2f	m_DirectionVector;

@@ -5,7 +5,7 @@
 
 Player::Player(float xPos, float yPos):
 	m_Color{ 1.0f, 0.0f, 0.0f, 1.0f }, m_Position { xPos, yPos }, m_Size{ 100.0f }, 
-	m_Score{ 0 }, m_Speed{ 150.f }, m_ShrinkingFactor{ 5 }
+	m_Score{ 0 }, m_Speed{ 200.f }, m_ShrinkingFactor{ 5 }
 {
 
 }
@@ -21,18 +21,18 @@ void Player::Update(float elapsedSec)
 	//change difficulty dependant on ball size
 	if (m_Score >= 1000)
 	{
-		m_ShrinkingFactor = 10;
+		m_ShrinkingFactor = 8;
 
 		if (m_IsMoving) {
-			m_Speed = 200.f;
+			m_Speed = 250.f;
 		}
 	}
 	if (m_Score >= 5000)
 	{
-		m_ShrinkingFactor = 15;
+		m_ShrinkingFactor = 10;
 
 		if (m_IsMoving) {
-			m_Speed = 250.f;
+			m_Speed = 300.f;
 		}
 	}
 
@@ -108,4 +108,9 @@ Point2f Player::GetPosition()
 float Player::GetSize()
 {
 	return m_Size;
+}
+
+int Player::GetScore()
+{
+	return m_Score;
 }
